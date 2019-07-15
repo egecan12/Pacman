@@ -56,6 +56,9 @@
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
   <script>
+    const maze = document.getElementById("maze");
+    const T = maze.width;
+    const Hs = maze.height;
     const game = {
       pacman: document.querySelector("#pacman"),
       pacCoords: {
@@ -123,6 +126,16 @@
     window.addEventListener('keydown', game.findDirection.bind(game))
 
     game.init();
+
+    var w = maze.offsetWidth
+    var h = maze.offsetHeight;
+
+    if ((game.pacCoords.x >= w) || (game.pacCoords.x <= -200) || (game.pacCoords.y >= 280) || (game.pacCoords.y <= -
+        200)) {
+      game.init();
+      console.log("game over");
+
+    }
   </script>
 </body>
 
