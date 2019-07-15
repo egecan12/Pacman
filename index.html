@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+  <style>
+    body {
+      background-color: #333;
+    }
+
+    #maze {
+      border: 10px solid blue;
+      height: 90vh;
+      width: 90vw;
+      border-radius: 5px;
+      position: absolute;
+    }
+
+    #pacman {
+      height: 100px;
+      width: 100px;
+      top: 200px;
+      left: 200px;
+      position: relative;
+    }
+
+    #pacman circle {
+      stroke: yellow;
+      stroke-width: 50%;
+      fill: none;
+      animation: chomp 0.4s linear infinite alternate;
+    }
+
+    @keyframes chomp {
+      from {
+        stroke-dasharray: 157, 100;
+        stroke-dashoffset: 0;
+      }
+
+      to {
+        stroke-dasharray: 126, 100;
+        stroke-dashoffset: -15;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="maze">
+    <svg id="pacman" viewbox="0 0 100 100">
+      <circle cx="50%" cy="50%" r="25%" />
+    </svg>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+  <script>
+    const game = {
+      pacman: document.querySelector("#pacman"),
+      pacCoords: {
+        x: 0,
+        y: 0
+      },
+      findDirection(e) {
+        switch (e.key) {
+          case "ArrowDown":
+            this.setCoords(this.pacCoords.x, this.pacCoords.y + 100);
+            this.move();
+
+            break;
+          case "ArrowLeft":
+            this.setCoords(this.pacCoords.x - 100, this.pacCoords.y);
+            this.move();
+            break;
+          case "ArrowRight":
+            this.setCoords(this.pacCoords.x + 100, this.pacCoords.y);
+            this.move();
+            break;
+          case "ArrowUp":
+            this.setCoords(this.pacCoords.x, this.pacCoords.y - 100);
+            this.move();
+
+            break;
+
+          default:
+            console.log('pacman does not know here to go')
+            break;
+        }
+        console.log(this);
+      },
+
+
+      setCoords(x, y) {
+
+        this.pacCoords.x = x;
+        this.pacCoords.y = y;
+      },
+
+
+
+
+      move() {
+        TweenMax.to(this.pacman, 1, {
+          x: this.pacCoords.x,
+          y: this.pacCoords.y,
+        })
+
+      },
+
+
+
+
+      init() {
+        TweenMax.set(this.pacman, {
+          x: 0,
+          y: 0
+        });
+      }
+
+
+    }
+    window.addEventListener('keydown', game.findDirection.bind(game))
+
+    game.init();
+  </script>
+</body>
+
+</html>
